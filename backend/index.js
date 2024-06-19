@@ -14,7 +14,17 @@ app.use(express.json());
 app.use(cors());
 
 // Database Connection
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}).then(() => {
+    console.log("Connected to Database");
+}).catch((err) => {
+    console.log(err);
+    console.log("Connection Failed");
+    process.exit(1);
+});
+
 
 // API Endpoint to check server status
 app.get("/", (req, res) => {
